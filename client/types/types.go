@@ -23,6 +23,7 @@ var IsJSONoutput bool
 type JSONPayload struct {
 	RepositoryURL    string `json:"repositoryURL"`
 	RepositoryBranch string `json:"repositoryBranch"`
+	TimeOutInSeconds int    `json:"timeOutInSeconds"`
 }
 
 // Target is the struct that represents HuskyCI API target

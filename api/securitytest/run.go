@@ -103,6 +103,7 @@ func (results *RunAllInfo) runGenericScans(enryScan SecTestScanInfo) error {
 		go func(genericTest *types.SecurityTest) {
 			defer wg.Done()
 			newGenericScan := SecTestScanInfo{}
+			newGenericScan.TimeOut = enryScan.TimeOut
 			if err := newGenericScan.New(enryScan.RID, enryScan.URL, enryScan.Branch, genericTest.Name); err != nil {
 				select {
 				case <-syncChan:
@@ -166,6 +167,7 @@ func (results *RunAllInfo) runLanguageScans(enryScan SecTestScanInfo) error {
 		go func(languageTest *types.SecurityTest) {
 			defer wg.Done()
 			newLanguageScan := SecTestScanInfo{}
+			newLanguageScan.TimeOut = enryScan.TimeOut
 			if err := newLanguageScan.New(enryScan.RID, enryScan.URL, enryScan.Branch, languageTest.Name); err != nil {
 				select {
 				case <-syncChan:

@@ -33,6 +33,7 @@ type SecTestScanInfo struct {
 	Branch                string
 	SecurityTestName      string
 	ErrorFound            error
+	TimeOut               int
 	ReqNotFound           bool
 	WarningFound          bool
 	PackageNotFound       bool
@@ -71,7 +72,12 @@ func (scanInfo *SecTestScanInfo) setSecurityTestContainer(securityTestName strin
 
 // Start starts a new huskyCI scan!
 func (scanInfo *SecTestScanInfo) Start() error {
-	if err := scanInfo.dockerRun(scanInfo.Container.SecurityTest.TimeOutInSeconds); err != nil {
+	// Override default timeout if a custom timeout is passed
+	timeOut := scanInfo.TimeOut
+	if timeOut == 0 {
+		timeOut = scanInfo.Container.SecurityTest.TimeOutInSeconds
+	}
+	if err := scanInfo.dockerRun(timeOut); err != nil {
 		scanInfo.ErrorFound = err
 		scanInfo.prepareContainerAfterScan()
 		return err

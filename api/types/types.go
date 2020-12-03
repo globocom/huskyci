@@ -12,6 +12,7 @@ import (
 type Repository struct {
 	URL       string    `bson:"repositoryURL" json:"repositoryURL"`
 	Branch    string    `json:"repositoryBranch"`
+	TimeOut   int       `json:"timeOutInSeconds"`
 	CreatedAt time.Time `bson:"createdAt" json:"createdAt"`
 }
 

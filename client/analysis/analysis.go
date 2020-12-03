@@ -27,6 +27,7 @@ func StartAnalysis() (string, error) {
 	requestPayload := types.JSONPayload{
 		RepositoryURL:    config.RepositoryURL,
 		RepositoryBranch: config.RepositoryBranch,
+		TimeOutInSeconds: config.TimeOutInSeconds,
 	}
 
 	marshalPayload, err := json.Marshal(requestPayload)

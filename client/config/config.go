@@ -7,6 +7,7 @@ package config
 import (
 	"errors"
 	"os"
+	"strconv"
 )
 
 // RepositoryURL stores the repository URL of the project to be analyzed.
@@ -24,6 +25,9 @@ var HuskyToken string
 // HuskyUseTLS stores if huskyCI is to use an HTTPS connection.
 var HuskyUseTLS bool
 
+// Timeout in Seconds for huskyCI tests
+var TimeOutInSeconds int
+
 // SetConfigs sets all configuration needed to start the client.
 func SetConfigs() {
 	RepositoryURL = os.Getenv(`HUSKYCI_CLIENT_REPO_URL`)
@@ -31,6 +35,7 @@ func SetConfigs() {
 	HuskyAPI = os.Getenv(`HUSKYCI_CLIENT_API_ADDR`)
 	HuskyToken = os.Getenv(`HUSKYCI_CLIENT_TOKEN`)
 	HuskyUseTLS = getUseTLS()
+	TimeOutInSeconds, _ = strconv.Atoi(os.Getenv(`HUSKYCI_CLIENT_TESTS_TIMEOUT`))
 }
 
 // CheckEnvVars checks if all environment vars are set.

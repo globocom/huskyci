@@ -29,6 +29,7 @@ func StartAnalysis(RID string, repository types.Repository) {
 	// step 2: run enry as huskyCI initial step
 	enryScan := securitytest.SecTestScanInfo{}
 	enryScan.SecurityTestName = "enry"
+	enryScan.TimeOut = repository.TimeOut
 	allScansResults := securitytest.RunAllInfo{}
 
 	defer func() {
