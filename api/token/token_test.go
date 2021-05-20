@@ -106,7 +106,7 @@ func (fH *FakeHashGen) GetIterations() int {
 	return fH.expectedIterations
 }
 
-func (fH *FakeHashGen) GenHashValue(value, salt []byte, iter, keyLen int, h hash.Hash) string {
+func (fH *FakeHashGen) GenHashValue(value, salt []byte, iter, keyLen int, hashFunc func() hash.Hash) string {
 	return fH.expectedHashValue
 }
 

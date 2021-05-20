@@ -29,10 +29,8 @@ func (pC *Pbkdf2Caller) DecodeSaltValue(salt string) ([]byte, error) {
 }
 
 // GenHashValue returns the hash value given all pbkdf2 parameters.
-func (pC *Pbkdf2Caller) GenHashValue(value, salt []byte, iter, keyLen int, h hash.Hash) string {
-	return base64.StdEncoding.EncodeToString(pbkdf2.Key(value, salt, iter, keyLen, func() hash.Hash {
-		return h
-	}))
+func (pC *Pbkdf2Caller) GenHashValue(value, salt []byte, iter, keyLen int, hashFunc func() hash.Hash) string {
+	return base64.StdEncoding.EncodeToString(pbkdf2.Key(value, salt, iter, keyLen, hashFunc))
 }
 
 // GenerateSalt returns a random salt and en error.

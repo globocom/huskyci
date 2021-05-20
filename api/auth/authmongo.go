@@ -32,34 +32,34 @@ func (cM *ClientPbkdf2) GetPassFromDB(username string) (string, error) {
 // GetValidHashFunction is an auxiliary function called by GetHashedPass.
 // It will return a valid hash function and a boolean if the hash was returned
 // with success.
-func GetValidHashFunction(hashStr string) (hash.Hash, bool) {
+func GetValidHashFunction(hashStr string) (func() hash.Hash, bool) {
 	hashLower := strings.ToLower(hashStr)
-	var hashFunction hash.Hash
+	var hashFunction func() hash.Hash
 	var isValid bool
 	switch hashLower {
 	case "sha256":
-		hashFunction = sha256.New()
+		hashFunction = sha256.New
 		isValid = true
 	case "sha224":
-		hashFunction = sha256.New224()
+		hashFunction = sha256.New224
 		isValid = true
 	case "sha384":
-		hashFunction = sha512.New384()
+		hashFunction = sha512.New384
 		isValid = true
 	case "sha512":
-		hashFunction = sha512.New()
+		hashFunction = sha512.New
 		isValid = true
 	case "sha3_224":
-		hashFunction = sha3.New224()
+		hashFunction = sha3.New224
 		isValid = true
 	case "sha3_256":
-		hashFunction = sha3.New256()
+		hashFunction = sha3.New256
 		isValid = true
 	case "sha3_384":
-		hashFunction = sha3.New384()
+		hashFunction = sha3.New384
 		isValid = true
 	case "sha3_512":
-		hashFunction = sha3.New512()
+		hashFunction = sha3.New512
 		isValid = true
 	default:
 		isValid = false

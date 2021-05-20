@@ -23,7 +23,7 @@ type FakeGen struct {
 	expectedDecodeSaltError error
 }
 
-func (fG *FakeGen) GenHashValue(value, salt []byte, iter, keyLen int, h hash.Hash) string {
+func (fG *FakeGen) GenHashValue(value, salt []byte, iter, keyLen int, hashFunc func() hash.Hash) string {
 	return fG.expectedHash
 }
 

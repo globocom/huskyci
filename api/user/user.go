@@ -10,7 +10,6 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"errors"
-	"hash"
 	"io"
 
 	"github.com/globocom/huskyCI/api/auth"
@@ -55,9 +54,7 @@ func InsertDefaultUser() error {
 	newUser.Iterations = iterations
 	newUser.KeyLen = keyLength
 	newUser.Salt = base64.StdEncoding.EncodeToString(salt)
-	hashedPass := pbkdf2.Key([]byte(DefaultAPIPassword), salt, iterations, keyLength, func() hash.Hash {
-		return hashFunction
-	})
+	hashedPass := pbkdf2.Key([]byte(DefaultAPIPassword), salt, iterations, keyLength, hashFunction)
 	newUser.Password = base64.StdEncoding.EncodeToString(hashedPass)
 	return apiContext.APIConfiguration.DBInstance.InsertDBUser(newUser)
 }

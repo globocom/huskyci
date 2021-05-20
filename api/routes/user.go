@@ -8,7 +8,6 @@ import (
 	"net/http"
 
 	"encoding/base64"
-	"hash"
 
 	"github.com/globocom/huskyCI/api/auth"
 	apiContext "github.com/globocom/huskyCI/api/context"
@@ -68,18 +67,14 @@ func UpdateUser(c echo.Context) error {
 		reply := map[string]interface{}{"success": false, "error": "failed to update user data"}
 		return c.JSON(http.StatusInternalServerError, reply)
 	}
-	hashedPass := pbkdf2.Key([]byte(attemptUser.Password), salt, user.Iterations, user.KeyLen, func() hash.Hash {
-		return hashFunction
-	})
+	hashedPass := pbkdf2.Key([]byte(attemptUser.Password), salt, user.Iterations, user.KeyLen, hashFunction)
 	if base64.StdEncoding.EncodeToString(hashedPass) != user.Password {
 		reply := map[string]interface{}{"success": false, "error": "unauthorized"}
 		return c.JSON(http.StatusUnauthorized, reply)
 	}
 
 	// step 5.1: prepare new user struct to be updated
-	newHashedPass := pbkdf2.Key([]byte(attemptUser.NewPassword), salt, user.Iterations, user.KeyLen, func() hash.Hash {
-		return hashFunction
-	})
+	newHashedPass := pbkdf2.Key([]byte(attemptUser.NewPassword), salt, user.Iterations, user.KeyLen, hashFunction)
 
 	updatedUser := types.User{
 		Username:     attemptUser.Username,
